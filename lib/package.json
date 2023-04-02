@@ -1,5 +1,5 @@
 {
-  "name": "react-cron-bh-test",
+  "name": "react-cron-bh",
   "version": "1.0.0",
   "description": "基于React+Antd的Cron编辑器插件",
   "main": "index.js",
