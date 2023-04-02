@@ -1,0 +1,18 @@
+{
+  "name": "react-cron-bh-test",
+  "version": "1.0.0",
+  "description": "基于React+Antd的Cron编辑器插件",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "陈嘉豪",
+  "license": "MIT",
+  "typings": "index.d.ts",
+  "keywords": [
+    "cron",
+    "react",
+    "antd",
+    "react-cron"
+  ]
+}
