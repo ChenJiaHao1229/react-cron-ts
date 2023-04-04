@@ -19,12 +19,12 @@ var icons_1 = require("@ant-design/icons");
 var antd_1 = require("antd");
 var react_1 = require("react");
 require("./index.css");
-var TimeSelect_1 = __importDefault(require("../../lib/TimeSelect"));
-var DayCron_1 = __importDefault(require("../../lib/DayCron"));
+var TimeSelect_1 = __importDefault(require("./TimeSelect"));
+var DayCron_1 = __importDefault(require("./DayCron"));
 var Cron = function (_a) {
-    var value = _a.value, children = _a.children, inputProps = _a.inputProps, height = _a.height, closeEmptyEditData = _a.closeEmptyEditData, style = _a.style, className = _a.className, onChange = _a.onChange;
+    var value = _a.value, children = _a.children, inputProps = _a.inputProps, height = _a.height, closeClearEditData = _a.closeClearEditData, style = _a.style, className = _a.className, onChange = _a.onChange;
     var _b = (0, react_1.useState)(false), open = _b[0], setOpen = _b[1];
-    return ((0, jsx_runtime_1.jsx)(antd_1.Popover, __assign({ content: (0, jsx_runtime_1.jsx)(CronContent, { value: value || '* * * * * ? *', height: height, onChange: function (value) { return onChange && onChange(value); }, open: open, setOpen: setOpen, closeEmptyEditData: closeEmptyEditData }), trigger: "click", open: open, onOpenChange: setOpen }, { children: children || ((0, jsx_runtime_1.jsx)(antd_1.Input, __assign({ value: value, suffix: (0, jsx_runtime_1.jsx)(icons_1.FieldTimeOutlined, {}), readOnly: true, className: className, style: style }, inputProps))) })));
+    return ((0, jsx_runtime_1.jsx)(antd_1.Popover, __assign({ content: (0, jsx_runtime_1.jsx)(CronContent, { value: value || '* * * * * ? *', height: height, onChange: function (value) { return onChange && onChange(value); }, open: open, setOpen: setOpen, closeClearEditData: closeClearEditData }), trigger: "click", open: open, onOpenChange: setOpen }, { children: children || ((0, jsx_runtime_1.jsx)(antd_1.Input, __assign({ value: value, suffix: (0, jsx_runtime_1.jsx)(icons_1.FieldTimeOutlined, {}), readOnly: true, className: className, style: style }, inputProps))) })));
 };
 var getTab = function (title) {
     return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(icons_1.InsertRowAboveOutlined, {}), title] }));
@@ -38,7 +38,7 @@ var monthReg = /^\*$|(^([1-9]|1[0-2])-([1-9]|1[0-2])$)|(^([1-9]|1[0-2])\/\d+$)|(
 var weekReg = /^\*$|^\?$|(^(SUN|MON|TUE|WED|THU|FRI|SAT)-(SUN|MON|TUE|WED|THU|FRI|SAT)$)|(^(SUN|MON|TUE|WED|THU|FRI|SAT)#\d+$)|(^(SUN|MON|TUE|WED|THU|FRI|SAT)L$)|(^((SUN|MON|TUE|WED|THU|FRI|SAT),)*(SUN|MON|TUE|WED|THU|FRI|SAT)$)/;
 var yearReg = /^\*$|^\?$|(^(2019|20[2-5][0-9]|206[0-6])-(2019|20[2-5][0-9]|206[0-6])$)|(^(2019|20[2-5][0-9]|206[0-6])\/\d+$)|(^((2019|20[2-5][0-9]|206[0-6]),)*(2019|20[2-5][0-9]|206[0-6])$)/;
 var CronContent = function (_a) {
-    var value = _a.value, height = _a.height, setOpen = _a.setOpen, onChange = _a.onChange, closeEmptyEditData = _a.closeEmptyEditData, open = _a.open;
+    var value = _a.value, height = _a.height, setOpen = _a.setOpen, onChange = _a.onChange, closeClearEditData = _a.closeClearEditData, open = _a.open;
     var _b = (0, react_1.useState)('second'), active = _b[0], setActive = _b[1];
     var _c = (0, react_1.useState)(''), cronText = _c[0], setCronText = _c[1];
     var _d = (0, react_1.useState)('*'), second = _d[0], setSecond = _d[1];
@@ -50,7 +50,7 @@ var CronContent = function (_a) {
     var _k = (0, react_1.useState)('*'), year = _k[0], setYear = _k[1];
     // 监听打开
     (0, react_1.useEffect)(function () {
-        if (open && closeEmptyEditData)
+        if (open && closeClearEditData)
             initData();
         // eslint-disable-next-line
     }, [open]);

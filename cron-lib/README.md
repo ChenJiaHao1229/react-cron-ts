@@ -1,7 +1,7 @@
 # react-cron-ts
 
 基于 React+Antd 的 Cron 编辑器插件
-[在线 Demo]()
+[在线 Demo](https://chenjiahao1229.github.io/react-cron-ts/)
 
 ### 依赖
 
@@ -96,7 +96,6 @@ export default FormCron
 ## 事件
 
 ```tsx
-  className?: string
   /**
    * 确认回调 返回Cron表达式
    */

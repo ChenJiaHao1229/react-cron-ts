@@ -1,3 +1,4 @@
+import { InputProps } from 'antd'
 type CronProps = {
   /**
    * Cron表达式
@@ -6,7 +7,7 @@ type CronProps = {
   /**
    * 插槽 可以用于替换Input输入框
    */
-  children?: ReactNode
+  children?: React.ReactNode
   /**
    * antd Input框参数 在无children时生效
    */
@@ -22,7 +23,7 @@ type CronProps = {
   /**
    * 输入框样式
    */
-  style?: CSSProperties
+  style?: React.CSSProperties
   /**
    * 输入类名
    */
