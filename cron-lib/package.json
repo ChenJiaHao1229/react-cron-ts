@@ -1,5 +1,5 @@
 {
-  "name": "react-cron-bh",
+  "name": "react-cron-ts",
   "version": "1.0.0",
   "description": "基于React+Antd的Cron编辑器插件",
   "main": "index.js",
@@ -14,5 +14,13 @@
     "react",
     "antd",
     "react-cron"
-  ]
+  ],
+  "homepage": "https://github.com/ChenJiaHao1229/react-cron-ts#readme",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ChenJiaHao1229/react-cron-ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ChenJiaHao1229/react-cron-ts/issues"
+  }
 }
