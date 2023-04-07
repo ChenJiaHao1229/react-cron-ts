@@ -3,29 +3,31 @@
 基于 React+Antd 的 Cron 编辑器插件
 [在线 Demo](https://chenjiahao1229.github.io/react-cron-ts/)
 
-### 依赖
+## 依赖
 
 - React
 - Antd
 
-### 安装
+## 安装
 
 ```bash
 npm install react-cron-ts
 ```
 
-### 使用
+## 使用
 
 ```tsx
-import React from 'react'
+import React, { useState } from 'react'
 import Cron from 'react-cron-ts'
 
 const Page = () => {
+  const [value, setValue] = useState<string>('* * * * * ? *')
   return (
     <Cron
-      value="* * * * * ? *"
-      onChange={(value) => {
-        console.log(value)
+      value={value}
+      onChange={(v) => {
+        console.log(v)
+        setValue(v)
       }}
     />
   )
@@ -34,7 +36,7 @@ const Page = () => {
 export default Page
 ```
 
-### 扩展
+## 扩展
 
 在 antd 的表单中使用
 
@@ -54,6 +56,30 @@ const FormCron = () => {
       </Form>
       <Button onClick={() => console.log(form.getFieldsValue())}>提交</Button>
     </>
+  )
+}
+
+export default FormCron
+```
+
+## 插槽的使用
+
+不想使用默认的 Input 框时，只需要把对应的组件作为 children 即可
+
+```tsx
+import React from 'react'
+import { Button } from 'antd'
+import Cron from 'react-cron-antd'
+
+const CronChildren = () => {
+  return (
+    <Cron
+      onChange={(value) => {
+        console.log(value)
+      }}
+    >
+      <Button>编辑Cron</Button>
+    </Cron>
   )
 }
 
@@ -101,3 +127,7 @@ export default FormCron
    */
   onChange?: (value: string) => void
 ```
+
+## 联系
+
+- only9221@163.com
