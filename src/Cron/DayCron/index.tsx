@@ -1,22 +1,15 @@
 import { InputNumber, Radio, RadioChangeEvent, Select } from 'antd'
 import React, { useEffect, useState } from 'react'
-
-const weekList = [
-  { label: '星期天', value: 1, name: 'SUN' },
-  { label: '星期一', value: 2, name: 'MON' },
-  { label: '星期二', value: 3, name: 'TUE' },
-  { label: '星期三', value: 4, name: 'WED' },
-  { label: '星期四', value: 5, name: 'THU' },
-  { label: '星期五', value: 6, name: 'FRI' },
-  { label: '星期六', value: 7, name: 'SAT' }
-]
+import useLanguage from '../Language'
 
 const DayCron: React.FC<{
   day: string
   week: string
+  language: 'cn' | 'en'
   setDay: (day: string) => void
   setWeek: (week: string) => void
-}> = ({ day, week, setDay, setWeek }) => {
+}> = ({ day, week, setDay, setWeek, language }) => {
+  const Language = useLanguage(language)
   const [selectRadio, setSelectRadio] = useState<number>(0) // 单选值
   const [lastDay, setLastDay] = useState<number>(1) // 当前月倒数第   3
   const [workDay, setWorkDay] = useState<number>(1) // 当前月工作日   4
@@ -24,13 +17,13 @@ const DayCron: React.FC<{
   const [circleTime, setCircleTime] = useState<number>(1) // 循环时间大小     5
   const [cycleStart, setCycleStart] = useState<number>(1) // 周期开始时间   6
   const [cycleEnd, setCycleEnd] = useState<number>(1) // 周期结束时间       6
-  const [startWeek, setStartWeek] = useState<number>(weekList[0].value) // 开始的星期   7
+  const [startWeek, setStartWeek] = useState<number>(Language.Week[0].value) // 开始的星期   7
   const [spaceDay, setSpaceDay] = useState<number>(1) // 开始的星期相隔天数              7
   const [selectDayList, setSelectDayList] = useState<number[]>([1]) // 具体的哪天    8
-  const [selectWeekList, setSelectWeekList] = useState<string[]>([weekList[0].name]) // 具体的哪星期    9
-  const [lastWeek, setLastWeek] = useState<number>(weekList[0].value) // 最后一个星期几   10
+  const [selectWeekList, setSelectWeekList] = useState<string[]>([Language.Week[0].name]) // 具体的哪星期    9
+  const [lastWeek, setLastWeek] = useState<number>(Language.Week[0].value) // 最后一个星期几   10
   const [conunt, setConunt] = useState<number>(1) // 这个月第几周         11
-  const [conWeek, setConWeek] = useState<number>(weekList[0].value) // 这个月第几周星期几   11
+  const [conWeek, setConWeek] = useState<number>(Language.Week[0].value) // 这个月第几周星期几   11
 
   useEffect(() => {
     // 回显数据
@@ -144,20 +137,20 @@ const DayCron: React.FC<{
     <Radio.Group onChange={handleRadio} value={selectRadio} className="react-cron-bh-radio-group">
       <div>
         <Radio value={0} />
-        <span className="react-cron-bh-radio-content">每一天</span>
+        <span className="react-cron-bh-radio-content">{Language.day.oneDay[0]}</span>
       </div>
       <div>
         <Radio value={1} />
-        <span className="react-cron-bh-radio-content">这个月最后一天</span>
+        <span className="react-cron-bh-radio-content">{Language.day.oneDay[1]}</span>
       </div>
       <div>
         <Radio value={2} />
-        <span className="react-cron-bh-radio-content">这个月最后一个工作日</span>
+        <span className="react-cron-bh-radio-content">{Language.day.oneDay[2]}</span>
       </div>
       <div>
         <Radio value={3} />
         <span className="react-cron-bh-radio-content">
-          当前月倒数第&nbsp;
+          {Language.day.lastDay[0]}&nbsp;
           <InputNumber
             className="react-cron-bh-radio-number"
             min={1}
@@ -168,13 +161,13 @@ const DayCron: React.FC<{
               else setLastDay(value || 1)
             }}
           />
-          &nbsp; 天
+          &nbsp; {Language.day.lastDay[1]}
         </span>
       </div>
       <div>
         <Radio value={4} />
         <span className="react-cron-bh-radio-content">
-          当前月最近的工作日到本月的第&nbsp;
+          {Language.day.workDay[0]}&nbsp;
           <InputNumber
             className="react-cron-bh-radio-number"
             min={1}
@@ -185,13 +178,13 @@ const DayCron: React.FC<{
               else setWorkDay(value || 1)
             }}
           />
-          &nbsp; 天
+          &nbsp; {Language.day.workDay[1]}
         </span>
       </div>
       <div>
         <Radio value={5} />
         <span className="react-cron-bh-radio-content">
-          从第&nbsp;
+          {Language.day.circle[0]}&nbsp;
           <InputNumber
             className="react-cron-bh-radio-number"
             min={1}
@@ -202,7 +195,7 @@ const DayCron: React.FC<{
               else setCircleStart(value || 0)
             }}
           />
-          &nbsp;天开始，每隔&nbsp;
+          &nbsp;{Language.day.circle[1]}&nbsp;
           <InputNumber
             className="react-cron-bh-radio-number"
             min={1}
@@ -213,13 +206,13 @@ const DayCron: React.FC<{
               else setCircleTime(value || 1)
             }}
           />
-          &nbsp; 天执行一次
+          &nbsp; {Language.day.circle[2]}
         </span>
       </div>
       <div>
         <Radio value={6} />
         <span className="react-cron-bh-radio-content">
-          从第&nbsp;
+          {Language.day.cycle[0]}&nbsp;
           <InputNumber
             className="react-cron-bh-radio-number"
             min={1}
@@ -230,7 +223,7 @@ const DayCron: React.FC<{
               else setCycleStart(value || 0)
             }}
           />
-          &nbsp; 天，到第&nbsp;
+          &nbsp; {Language.day.cycle[1]}&nbsp;
           <InputNumber
             className="react-cron-bh-radio-number"
             min={cycleStart}
@@ -241,24 +234,24 @@ const DayCron: React.FC<{
               else setCycleEnd(value || circleStart)
             }}
           />
-          &nbsp; 天，每天执行一次
+          &nbsp; {Language.day.cycle[2]}
         </span>
       </div>
       <div>
         <Radio value={7} />
         <span className="react-cron-bh-radio-content">
-          从&nbsp;
+          {Language.day.startWeek[0]}&nbsp;
           <Select
-            placeholder="请选择"
+            placeholder={Language.placeholder}
             className="react-cron-bh-radio-content-select"
             value={startWeek}
-            options={weekList}
+            options={Language.Week}
             onChange={(value) => {
               if (selectRadio === 7) handlerCron(`${value}/${spaceDay}`, 'week')
               else setStartWeek(value)
             }}
           />
-          &nbsp;开始，每隔&nbsp;
+          &nbsp;{Language.day.startWeek[1]}&nbsp;
           <InputNumber
             className="react-cron-bh-radio-number"
             min={1}
@@ -269,15 +262,15 @@ const DayCron: React.FC<{
               else setSpaceDay(value || 1)
             }}
           />
-          &nbsp; 天执行一次
+          &nbsp; {Language.day.startWeek[2]}
         </span>
       </div>
       <div>
         <Radio value={8} />
         <span className="react-cron-bh-radio-content">
-          <span>具体哪天</span>&nbsp;
+          <span>{Language.day.specific}</span>&nbsp;
           <Select
-            placeholder="请选择"
+            placeholder={Language.placeholder}
             mode="multiple"
             className="react-cron-bh-radio-content-select"
             value={selectDayList}
@@ -295,13 +288,13 @@ const DayCron: React.FC<{
       <div>
         <Radio value={9} />
         <span className="react-cron-bh-radio-content">
-          <span>具体星期</span>&nbsp;
+          <span>{Language.day.specificWeek}</span>&nbsp;
           <Select
-            placeholder="请选择"
+            placeholder={Language.placeholder}
             mode="multiple"
             className="react-cron-bh-radio-content-select"
             value={selectWeekList}
-            options={weekList}
+            options={Language.Week}
             fieldNames={{ value: 'name' }}
             onChange={(values) => {
               if (selectRadio === 9)
@@ -314,23 +307,24 @@ const DayCron: React.FC<{
       <div>
         <Radio value={10} />
         <span className="react-cron-bh-radio-content">
-          <span>这个月最后一个</span>&nbsp;
+          {Language.day.lastWeek[0]}&nbsp;
           <Select
-            placeholder="请选择"
+            placeholder={Language.placeholder}
             className="react-cron-bh-radio-content-select"
             value={lastWeek}
-            options={weekList}
+            options={Language.Week}
             onChange={(value) => {
               if (selectRadio === 10) handlerCron(`${value}L`, 'week')
               else setLastWeek(value)
             }}
           />
+          {Language.day.lastWeek[1] && <>&nbsp;{Language.day.lastWeek[1]}</>}
         </span>
       </div>
       <div>
         <Radio value={11} />
         <span className="react-cron-bh-radio-content">
-          当前月第&nbsp;
+          {Language.day.conWeek[0]}&nbsp;
           <InputNumber
             className="react-cron-bh-radio-number"
             min={1}
@@ -341,17 +335,18 @@ const DayCron: React.FC<{
               else setConunt(value || 1)
             }}
           />
-          &nbsp;个&nbsp;
+          &nbsp;{Language.day.conWeek[1]}&nbsp;
           <Select
-            placeholder="请选择"
+            placeholder={Language.placeholder}
             className="react-cron-bh-radio-content-select"
             value={conWeek}
-            options={weekList}
+            options={Language.Week}
             onChange={(value) => {
               if (selectRadio === 11) handlerCron(`${value}#${conunt}`, 'week')
               else setConWeek(value)
             }}
           />
+          {Language.day.conWeek[2] && <>&nbsp;{Language.day.conWeek[2]}</>}
         </span>
       </div>
     </Radio.Group>

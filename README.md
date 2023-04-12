@@ -96,9 +96,10 @@ export default FormCron
   /**
    * 插槽 可以用于替换Input输入框
    */
-  children?: ReactNode
+  children?: React.ReactNode
   /**
-   * antd Input框参数 在无children时生效
+   * antd Input框参数
+   * 在无children时生效
    */
   inputProps?: InputProps
   /**
@@ -112,16 +113,26 @@ export default FormCron
   /**
    * 输入框样式
    */
-  style?: CSSProperties
+  style?: React.CSSProperties
   /**
    * 输入类名
    */
   className?: string
+  /**
+   * 组件语言 'cn'|'en'
+   * 默认为cn
+   */
+  language?: 'cn' | 'en'
 ```
 
 ## 事件
 
 ```tsx
+  /**
+   * 切换语言回调
+   * 传递了方法才会显示切换语言的单选框
+   */
+  handleLanguage?: (language: 'cn' | 'en') => void
   /**
    * 确认回调 返回Cron表达式
    */

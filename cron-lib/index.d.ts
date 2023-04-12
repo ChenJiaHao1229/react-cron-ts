@@ -9,7 +9,8 @@ type CronProps = {
    */
   children?: React.ReactNode
   /**
-   * antd Input框参数 在无children时生效
+   * antd Input框参数
+   * 在无children时生效
    */
   inputProps?: InputProps
   /**
@@ -29,10 +30,21 @@ type CronProps = {
    */
   className?: string
   /**
+   * 组件语言 'cn'|'en'
+   * 默认为cn
+   */
+  language?: 'cn' | 'en'
+  /**
+   * 切换语言回调
+   * 传递了方法才会显示切换语言的单选框
+   */
+  handleLanguage?: (language: 'cn' | 'en') => void
+  /**
    * 确认回调 返回Cron表达式
    */
   onChange?: (value: string) => void
 }
+
 declare const Cron: React.FC<CronProps>
 export { CronProps }
 export default Cron

@@ -1,6 +1,6 @@
 {
   "name": "react-cron-ts",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "基于React+Antd的Cron编辑器插件",
   "main": "lib/index.js",
   "scripts": {
@@ -22,5 +22,11 @@
   },
   "bugs": {
     "url": "https://github.com/ChenJiaHao1229/react-cron-ts/issues"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.0.1",
+    "antd": "^5.3.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }

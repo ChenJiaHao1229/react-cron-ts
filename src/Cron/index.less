@@ -30,7 +30,7 @@
             .react-cron-bh-radio-content-select {
               width: 100%;
               flex: 1;
-              max-width: 400px;
+              max-width: 465px;
             }
           }
         }
@@ -41,20 +41,15 @@
 
 .react-cron-bh-bottom {
   margin: 12px 0px 0px;
-  position: relative;
-  > span:first-child {
-    line-height: 32px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+  line-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .react-cron-bh-bottom-cron {
     max-width: 180px;
     text-overflow: ellipsis;
     overflow: hidden;
     word-break: break-all;
     white-space: nowrap;
-  }
-  > div:last-child {
-    text-align: right;
   }
 }

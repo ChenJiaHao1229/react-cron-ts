@@ -18,18 +18,18 @@ var jsx_runtime_1 = require("react/jsx-runtime");
 var icons_1 = require("@ant-design/icons");
 var antd_1 = require("antd");
 var react_1 = require("react");
-require("./index.css");
 var TimeSelect_1 = __importDefault(require("./TimeSelect"));
 var DayCron_1 = __importDefault(require("./DayCron"));
+var Language_1 = __importDefault(require("./Language"));
+require("./index.css");
 var Cron = function (_a) {
-    var value = _a.value, children = _a.children, inputProps = _a.inputProps, height = _a.height, closeClearEditData = _a.closeClearEditData, style = _a.style, className = _a.className, onChange = _a.onChange;
-    var _b = (0, react_1.useState)(false), open = _b[0], setOpen = _b[1];
-    return ((0, jsx_runtime_1.jsx)(antd_1.Popover, __assign({ content: (0, jsx_runtime_1.jsx)(CronContent, { value: value || '* * * * * ? *', height: height, onChange: function (value) { return onChange && onChange(value); }, open: open, setOpen: setOpen, closeClearEditData: closeClearEditData }), trigger: "click", open: open, onOpenChange: setOpen }, { children: children || ((0, jsx_runtime_1.jsx)(antd_1.Input, __assign({ value: value, suffix: (0, jsx_runtime_1.jsx)(icons_1.FieldTimeOutlined, {}), readOnly: true, className: className, style: style }, inputProps))) })));
+    var value = _a.value, children = _a.children, inputProps = _a.inputProps, height = _a.height, closeClearEditData = _a.closeClearEditData, style = _a.style, className = _a.className, _b = _a.language, language = _b === void 0 ? 'cn' : _b, handleLanguage = _a.handleLanguage, onChange = _a.onChange;
+    var _c = (0, react_1.useState)(false), open = _c[0], setOpen = _c[1];
+    return ((0, jsx_runtime_1.jsx)(antd_1.Popover, __assign({ content: (0, jsx_runtime_1.jsx)(CronContent, { value: value || '* * * * * ? *', height: height, onChange: function (value) { return onChange && onChange(value); }, open: open, language: language, handleLanguage: handleLanguage, setOpen: setOpen, closeClearEditData: closeClearEditData }), trigger: "click", open: open, onOpenChange: setOpen }, { children: children || ((0, jsx_runtime_1.jsx)(antd_1.Input, __assign({ value: value, suffix: (0, jsx_runtime_1.jsx)(icons_1.FieldTimeOutlined, {}), readOnly: true, className: className, style: style }, inputProps))) })));
 };
 var getTab = function (title) {
     return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(icons_1.InsertRowAboveOutlined, {}), title] }));
 };
-// 正则
 var secondReg = /^\*$|(^([0-9]|[1-5][0-9])-([0-9]|[1-5][0-9])$)|(^([0-9]|[1-5][0-9])\/\d+$)|(^(([0-9]|[1-5][0-9]),)*([0-9]|[1-5][0-9])$)/;
 var minuteReg = /^\*$|(^([0-9]|[1-5][0-9])-([0-9]|[1-5][0-9])$)|(^([0-9]|[1-5][0-9])\/\d+$)|(^(([0-9]|[1-5][0-9]),)*([0-9]|[1-5][0-9])$)/;
 var hourReg = /(^\*$)|(^([0-9]|(1[0-9])|(2[0-3]))-([0-9]|(1[0-9])|(2[0-3]))$)|(^([0-9]|(1[0-9])|(2[0-3]))\/\d+$)|(^(([0-9]|(1[0-9])|(2[0-3])),)*([0-9]|(1[0-9])|(2[0-3]))$)/;
@@ -38,7 +38,7 @@ var monthReg = /^\*$|(^([1-9]|1[0-2])-([1-9]|1[0-2])$)|(^([1-9]|1[0-2])\/\d+$)|(
 var weekReg = /^\*$|^\?$|(^(SUN|MON|TUE|WED|THU|FRI|SAT)-(SUN|MON|TUE|WED|THU|FRI|SAT)$)|(^(SUN|MON|TUE|WED|THU|FRI|SAT)#\d+$)|(^(SUN|MON|TUE|WED|THU|FRI|SAT)L$)|(^((SUN|MON|TUE|WED|THU|FRI|SAT),)*(SUN|MON|TUE|WED|THU|FRI|SAT)$)/;
 var yearReg = /^\*$|^\?$|(^(2019|20[2-5][0-9]|206[0-6])-(2019|20[2-5][0-9]|206[0-6])$)|(^(2019|20[2-5][0-9]|206[0-6])\/\d+$)|(^((2019|20[2-5][0-9]|206[0-6]),)*(2019|20[2-5][0-9]|206[0-6])$)/;
 var CronContent = function (_a) {
-    var value = _a.value, height = _a.height, setOpen = _a.setOpen, onChange = _a.onChange, closeClearEditData = _a.closeClearEditData, open = _a.open;
+    var value = _a.value, height = _a.height, setOpen = _a.setOpen, onChange = _a.onChange, closeClearEditData = _a.closeClearEditData, open = _a.open, language = _a.language, handleLanguage = _a.handleLanguage;
     var _b = (0, react_1.useState)('second'), active = _b[0], setActive = _b[1];
     var _c = (0, react_1.useState)(''), cronText = _c[0], setCronText = _c[1];
     var _d = (0, react_1.useState)('*'), second = _d[0], setSecond = _d[1];
@@ -48,18 +48,15 @@ var CronContent = function (_a) {
     var _h = (0, react_1.useState)('*'), month = _h[0], setMonth = _h[1];
     var _j = (0, react_1.useState)('*'), week = _j[0], setWeek = _j[1];
     var _k = (0, react_1.useState)('*'), year = _k[0], setYear = _k[1];
-    // 监听打开
+    var Language = (0, Language_1.default)(language);
     (0, react_1.useEffect)(function () {
         if (open && closeClearEditData)
             initData();
-        // eslint-disable-next-line
     }, [open]);
     (0, react_1.useEffect)(function () {
         initData();
-        // eslint-disable-next-line
     }, [value]);
     var initData = function () {
-        // 初始化数据
         setCronText(value);
         var _a = value.split(' '), second = _a[0], minute = _a[1], hour = _a[2], day = _a[3], month = _a[4], week = _a[5], year = _a[6];
         setSecond(secondReg.test(second) ? second : '*');
@@ -70,53 +67,56 @@ var CronContent = function (_a) {
         setWeek(weekReg.test(week) ? week : '?');
         setYear(yearReg.test(year) ? year : '*');
     };
-    // 监听回调数据变化
     (0, react_1.useEffect)(function () {
         setCronText("".concat(second, " ").concat(minute, " ").concat(hour, " ").concat(day, " ").concat(month, " ").concat(week, " ").concat(year));
     }, [second, minute, hour, day, month, week, year]);
     return ((0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)(antd_1.Card, __assign({ bodyStyle: {
                     padding: 0,
-                    height: height
+                    width: language === 'cn' ? 480 : 645,
+                    maxHeight: height
                 }, rootClassName: "react-cron-bh-card", bordered: true }, { children: (0, jsx_runtime_1.jsx)(antd_1.Tabs, { className: "react-cron-bh-tabs", activeKey: active, type: "card", onChange: setActive, items: [
                         {
                             key: 'second',
-                            label: getTab('秒'),
-                            children: (0, jsx_runtime_1.jsx)(TimeSelect_1.default, { value: second, onChange: setSecond, type: "second" }),
+                            label: getTab(Language.second.name),
+                            children: ((0, jsx_runtime_1.jsx)(TimeSelect_1.default, { value: second, onChange: setSecond, type: "second", language: language })),
                             className: 'react-cron-bh-tab'
                         },
                         {
                             key: 'minute',
-                            label: getTab('分'),
-                            children: (0, jsx_runtime_1.jsx)(TimeSelect_1.default, { value: minute, onChange: setMinute, type: "minute" }),
+                            label: getTab(Language.minute.name),
+                            children: ((0, jsx_runtime_1.jsx)(TimeSelect_1.default, { value: minute, onChange: setMinute, type: "minute", language: language })),
                             className: 'react-cron-bh-tab'
                         },
                         {
                             key: 'hour',
-                            label: getTab('时'),
-                            children: (0, jsx_runtime_1.jsx)(TimeSelect_1.default, { value: hour, onChange: setHour, type: "hour" }),
+                            label: getTab(Language.hour.name),
+                            children: ((0, jsx_runtime_1.jsx)(TimeSelect_1.default, { value: hour, onChange: setHour, type: "hour", language: language })),
                             className: 'react-cron-bh-tab'
                         },
                         {
                             key: 'day',
-                            label: getTab('日&周'),
-                            children: (0, jsx_runtime_1.jsx)(DayCron_1.default, { day: day, week: week, setDay: setDay, setWeek: setWeek }),
+                            label: getTab(Language.day.name),
+                            children: ((0, jsx_runtime_1.jsx)(DayCron_1.default, { day: day, week: week, setDay: setDay, setWeek: setWeek, language: language })),
                             className: 'react-cron-bh-tab'
                         },
                         {
                             key: 'month',
-                            label: getTab('月'),
-                            children: (0, jsx_runtime_1.jsx)(TimeSelect_1.default, { value: month, onChange: setMonth, type: "month" }),
+                            label: getTab(Language.month.name),
+                            children: ((0, jsx_runtime_1.jsx)(TimeSelect_1.default, { value: month, onChange: setMonth, type: "month", language: language })),
                             className: 'react-cron-bh-tab'
                         },
                         {
                             key: 'year',
-                            label: getTab('年'),
-                            children: (0, jsx_runtime_1.jsx)(TimeSelect_1.default, { value: year, onChange: setYear, type: "year" }),
+                            label: getTab(Language.year.name),
+                            children: ((0, jsx_runtime_1.jsx)(TimeSelect_1.default, { value: year, onChange: setYear, type: "year", language: language })),
                             className: 'react-cron-bh-tab'
                         }
-                    ] }) })), (0, jsx_runtime_1.jsxs)("div", __assign({ className: "react-cron-bh-bottom" }, { children: [(0, jsx_runtime_1.jsx)(antd_1.Tooltip, __assign({ title: cronText }, { children: (0, jsx_runtime_1.jsx)("span", { children: cronText }) })), (0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)(antd_1.Button, __assign({ style: { marginRight: 8 }, onClick: function () { return setOpen(false); } }, { children: "\u53D6\u6D88" })), (0, jsx_runtime_1.jsx)(antd_1.Button, __assign({ type: "primary", onClick: function () {
+                    ] }) })), (0, jsx_runtime_1.jsxs)("div", __assign({ className: "react-cron-bh-bottom" }, { children: [handleLanguage ? ((0, jsx_runtime_1.jsx)(antd_1.Radio.Group, { options: Language.language, onChange: function (_a) {
+                            var value = _a.target.value;
+                            return handleLanguage === null || handleLanguage === void 0 ? void 0 : handleLanguage(value);
+                        }, value: language, optionType: "button", buttonStyle: "solid" })) : ((0, jsx_runtime_1.jsx)("span", {})), (0, jsx_runtime_1.jsx)(antd_1.Tooltip, __assign({ title: cronText }, { children: (0, jsx_runtime_1.jsx)("span", __assign({ className: "react-cron-bh-bottom-cron" }, { children: cronText })) })), (0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)(antd_1.Button, __assign({ style: { marginRight: 8 }, onClick: function () { return setOpen(false); } }, { children: Language.close })), (0, jsx_runtime_1.jsx)(antd_1.Button, __assign({ type: "primary", onClick: function () {
                                     onChange(cronText);
                                     setOpen(false);
-                                } }, { children: "\u786E\u8BA4" }))] })] }))] }));
+                                } }, { children: Language.save }))] })] }))] }));
 };
 exports.default = Cron;

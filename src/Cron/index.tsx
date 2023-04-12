@@ -1,9 +1,20 @@
 import { FieldTimeOutlined, InsertRowAboveOutlined } from '@ant-design/icons'
-import { Button, Card, Input, InputProps, Popover, Tabs, Tooltip } from 'antd'
+import {
+  Button,
+  Card,
+  Input,
+  InputProps,
+  Popover,
+  Radio,
+  RadioChangeEvent,
+  Tabs,
+  Tooltip
+} from 'antd'
 import React, { CSSProperties, ReactNode, useEffect, useState } from 'react'
-import './index.css'
 import TimeSelect from './TimeSelect'
 import DayCron from './DayCron'
+import useLanguage from './Language'
+import './index.css'
 
 type CronProps = {
   value?: string
@@ -13,6 +24,8 @@ type CronProps = {
   closeClearEditData?: boolean
   style?: CSSProperties
   className?: string
+  language?: 'cn' | 'en'
+  handleLanguage?: (language: 'cn' | 'en') => void
   onChange?: (value: string) => void
 }
 
@@ -24,10 +37,11 @@ const Cron: React.FC<CronProps> = ({
   closeClearEditData,
   style,
   className,
+  language = 'cn',
+  handleLanguage,
   onChange
 }) => {
   const [open, setOpen] = useState<boolean>(false)
-
   return (
     <Popover
       content={
@@ -36,6 +50,8 @@ const Cron: React.FC<CronProps> = ({
           height={height}
           onChange={(value) => onChange && onChange(value)}
           open={open}
+          language={language}
+          handleLanguage={handleLanguage}
           setOpen={setOpen}
           closeClearEditData={closeClearEditData}
         />
@@ -87,10 +103,12 @@ const CronContent: React.FC<{
   value: string
   height?: string | number
   open: boolean
+  language: 'cn' | 'en'
+  handleLanguage?: (language: 'cn' | 'en') => void
   setOpen: (open: boolean) => void
   onChange: (value: string) => void
   closeClearEditData?: boolean
-}> = ({ value, height, setOpen, onChange, closeClearEditData, open }) => {
+}> = ({ value, height, setOpen, onChange, closeClearEditData, open, language, handleLanguage }) => {
   const [active, setActive] = useState<string>('second')
   const [cronText, setCronText] = useState<string>('')
   const [second, setSecond] = useState('*')
@@ -100,6 +118,8 @@ const CronContent: React.FC<{
   const [month, setMonth] = useState('*')
   const [week, setWeek] = useState('*')
   const [year, setYear] = useState('*')
+  const Language = useLanguage(language)
+
   // 监听打开
   useEffect(() => {
     if (open && closeClearEditData) initData()
@@ -133,7 +153,8 @@ const CronContent: React.FC<{
       <Card
         bodyStyle={{
           padding: 0,
-          height
+          width: language === 'cn' ? 480 : 645,
+          maxHeight: height
         }}
         rootClassName="react-cron-bh-card"
         bordered={true}
@@ -146,50 +167,79 @@ const CronContent: React.FC<{
           items={[
             {
               key: 'second',
-              label: getTab('秒'),
-              children: <TimeSelect value={second} onChange={setSecond} type="second" />,
+              label: getTab(Language.second.name),
+              children: (
+                <TimeSelect value={second} onChange={setSecond} type="second" language={language} />
+              ),
               className: 'react-cron-bh-tab'
             },
             {
               key: 'minute',
-              label: getTab('分'),
-              children: <TimeSelect value={minute} onChange={setMinute} type="minute" />,
+              label: getTab(Language.minute.name),
+              children: (
+                <TimeSelect value={minute} onChange={setMinute} type="minute" language={language} />
+              ),
               className: 'react-cron-bh-tab'
             },
             {
               key: 'hour',
-              label: getTab('时'),
-              children: <TimeSelect value={hour} onChange={setHour} type="hour" />,
+              label: getTab(Language.hour.name),
+              children: (
+                <TimeSelect value={hour} onChange={setHour} type="hour" language={language} />
+              ),
               className: 'react-cron-bh-tab'
             },
             {
               key: 'day',
-              label: getTab('日&周'),
-              children: <DayCron day={day} week={week} setDay={setDay} setWeek={setWeek} />,
+              label: getTab(Language.day.name),
+              children: (
+                <DayCron
+                  day={day}
+                  week={week}
+                  setDay={setDay}
+                  setWeek={setWeek}
+                  language={language}
+                />
+              ),
               className: 'react-cron-bh-tab'
             },
             {
               key: 'month',
-              label: getTab('月'),
-              children: <TimeSelect value={month} onChange={setMonth} type="month" />,
+              label: getTab(Language.month.name),
+              children: (
+                <TimeSelect value={month} onChange={setMonth} type="month" language={language} />
+              ),
               className: 'react-cron-bh-tab'
             },
             {
               key: 'year',
-              label: getTab('年'),
-              children: <TimeSelect value={year} onChange={setYear} type="year" />,
+              label: getTab(Language.year.name),
+              children: (
+                <TimeSelect value={year} onChange={setYear} type="year" language={language} />
+              ),
               className: 'react-cron-bh-tab'
             }
           ]}
         />
       </Card>
       <div className="react-cron-bh-bottom">
+        {handleLanguage ? (
+          <Radio.Group
+            options={Language.language}
+            onChange={({ target: { value } }: RadioChangeEvent) => handleLanguage?.(value)}
+            value={language}
+            optionType="button"
+            buttonStyle="solid"
+          />
+        ) : (
+          <span />
+        )}
         <Tooltip title={cronText}>
-          <span>{cronText}</span>
+          <span className="react-cron-bh-bottom-cron">{cronText}</span>
         </Tooltip>
         <div>
           <Button style={{ marginRight: 8 }} onClick={() => setOpen(false)}>
-            取消
+            {Language.close}
           </Button>
           <Button
             type="primary"
@@ -198,7 +248,7 @@ const CronContent: React.FC<{
               setOpen(false)
             }}
           >
-            确认
+            {Language.save}
           </Button>
         </div>
       </div>

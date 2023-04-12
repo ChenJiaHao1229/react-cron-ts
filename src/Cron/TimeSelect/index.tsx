@@ -1,24 +1,22 @@
 import { InputNumber, Radio, RadioChangeEvent, Select } from 'antd'
 import React, { useEffect, useState } from 'react'
+import useLanguage from '../Language'
 const options = Array(60)
   .fill(0)
   .map((item, index) => ({ label: index, value: index }))
 const thisYear = new Date().getFullYear()
 const typeInfo = {
   second: {
-    name: '秒钟',
     max: 59,
     min: 0,
     options: options
   },
   minute: {
-    name: '分钟',
     max: 59,
     min: 0,
     options: options
   },
   hour: {
-    name: '小时',
     max: 23,
     min: 0,
     options: Array(24)
@@ -26,7 +24,6 @@ const typeInfo = {
       .map((item, index) => ({ label: index, value: index }))
   },
   month: {
-    name: '月',
     max: 12,
     min: 1,
     options: Array(12)
@@ -34,7 +31,6 @@ const typeInfo = {
       .map((item, index) => ({ label: index + 1, value: index + 1 }))
   },
   year: {
-    name: '年',
     max: thisYear + 100,
     min: thisYear,
     options: Array(100)
@@ -45,15 +41,17 @@ const typeInfo = {
 
 const TimeSelect: React.FC<{
   value: string
+  language: 'cn' | 'en'
   onChange: (value: string) => void
   type: 'second' | 'minute' | 'hour' | 'month' | 'year'
-}> = ({ value, onChange, type }) => {
+}> = ({ value, onChange, type, language }) => {
   const [selectRadio, setSelectRadio] = useState<0 | 1 | 2 | 3>(0) // 单选值
   const [circleStart, setCircleStart] = useState<number>(typeInfo[type].min) // 循环开始时间
   const [circleTime, setCircleTime] = useState<number>(1) // 循环时间大小
   const [cycleStart, setCycleStart] = useState<number>(typeInfo[type].min) // 周期开始时间
   const [cycleEnd, setCycleEnd] = useState<number>(typeInfo[type].min) // 周期结束时间
   const [selectTime, setSelectTime] = useState<number[]>([typeInfo[type].options[0].value])
+  const Language = useLanguage(language)
 
   useEffect(() => {
     // 回显数据
@@ -98,12 +96,12 @@ const TimeSelect: React.FC<{
     <Radio.Group onChange={handleRadio} value={selectRadio} className="react-cron-bh-radio-group">
       <div>
         <Radio value={0} />
-        <span className="react-cron-bh-radio-content">每一{typeInfo[type].name}</span>
+        <span className="react-cron-bh-radio-content">{Language[type].every}</span>
       </div>
       <div>
         <Radio value={1} />
         <span className="react-cron-bh-radio-content">
-          从第&nbsp;
+          {Language[type].circle[0]}&nbsp;
           <InputNumber
             className="react-cron-bh-radio-number"
             min={typeInfo[type].min}
@@ -114,7 +112,7 @@ const TimeSelect: React.FC<{
               else setCircleStart(value || typeInfo[type].min)
             }}
           />
-          &nbsp; {typeInfo[type].name}开始，每隔&nbsp;
+          &nbsp; {Language[type].circle[1]}&nbsp;
           <InputNumber
             className="react-cron-bh-radio-number"
             min={1}
@@ -125,13 +123,13 @@ const TimeSelect: React.FC<{
               else setCircleTime(value || 1)
             }}
           />
-          &nbsp; {typeInfo[type].name}执行一次
+          &nbsp; {Language[type].circle[2]}
         </span>
       </div>
       <div>
         <Radio value={2} />
         <span className="react-cron-bh-radio-content">
-          从第&nbsp;
+          {Language[type].cycle[0]}&nbsp;
           <InputNumber
             className="react-cron-bh-radio-number"
             min={typeInfo[type].min}
@@ -142,7 +140,7 @@ const TimeSelect: React.FC<{
               else setCycleStart(value || typeInfo[type].min)
             }}
           />
-          &nbsp; {typeInfo[type].name}，到第&nbsp;
+          &nbsp; {Language[type].cycle[1]}&nbsp;
           <InputNumber
             className="react-cron-bh-radio-number"
             min={cycleStart}
@@ -153,15 +151,15 @@ const TimeSelect: React.FC<{
               else setCycleEnd(value || circleStart)
             }}
           />
-          &nbsp; {typeInfo[type].name}，每{typeInfo[type].name}执行一次
+          &nbsp; {Language[type].cycle[2]}
         </span>
       </div>
       <div>
         <Radio value={3} />
         <span className="react-cron-bh-radio-content">
-          <span>具体时间（{typeInfo[type].name}）</span>
+          <span>{Language[type].specific}</span>
           <Select
-            placeholder="请选择"
+            placeholder={Language.placeholder}
             mode="multiple"
             className="react-cron-bh-radio-content-select"
             value={selectTime}

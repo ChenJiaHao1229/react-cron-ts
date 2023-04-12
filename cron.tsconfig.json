@@ -14,6 +14,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "checkJs": true,
+    "removeComments": true,
     "jsx": "react-jsx",
     "outDir": "./cron-lib/lib"
   },
