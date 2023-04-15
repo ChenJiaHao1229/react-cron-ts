@@ -118,6 +118,11 @@ export default FormCron
    * 输入类名
    */
   className?: string
+    /**
+   * 是否需要年
+   * 默认 false
+   */
+  noYear?: boolean
   /**
    * 组件语言 'cn'|'en'
    * 默认为cn

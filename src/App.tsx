@@ -17,14 +17,11 @@ function App() {
       }}
     >
       <Form form={form}>
-        <Form.Item name="cron-cn" label="CronCN" initialValue="* * * * * ? *">
-          <Cron language="cn" />
-        </Form.Item>
-        <Form.Item name="cron-en" label="CronEN" initialValue="* * * * * ? *">
-          <Cron language="en" />
-        </Form.Item>
         <Form.Item name="cron" label="CronLanguage" initialValue="* * * * * ? *">
           <Cron language={language} handleLanguage={setLanguage} />
+        </Form.Item>
+        <Form.Item name="cron-noYear" label="Cron-noYear" initialValue="* * * * * ? *">
+          <Cron noYear />
         </Form.Item>
       </Form>
       <Button onClick={() => form.resetFields()} style={{}}>

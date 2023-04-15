@@ -35,6 +35,11 @@ type CronProps = {
    */
   language?: 'cn' | 'en'
   /**
+   * 是否需要年
+   * 默认 false
+   */
+  noYear?: boolean
+  /**
    * 切换语言回调
    * 传递了方法才会显示切换语言的单选框
    */

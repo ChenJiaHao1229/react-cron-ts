@@ -25,6 +25,7 @@ type CronProps = {
   style?: CSSProperties
   className?: string
   language?: 'cn' | 'en'
+  noYear?: boolean
   handleLanguage?: (language: 'cn' | 'en') => void
   onChange?: (value: string) => void
 }
@@ -38,6 +39,7 @@ const Cron: React.FC<CronProps> = ({
   style,
   className,
   language = 'cn',
+  noYear = false,
   handleLanguage,
   onChange
 }) => {
@@ -54,6 +56,7 @@ const Cron: React.FC<CronProps> = ({
           handleLanguage={handleLanguage}
           setOpen={setOpen}
           closeClearEditData={closeClearEditData}
+          noYear={noYear}
         />
       }
       trigger="click"
@@ -104,11 +107,22 @@ const CronContent: React.FC<{
   height?: string | number
   open: boolean
   language: 'cn' | 'en'
+  noYear: boolean
   handleLanguage?: (language: 'cn' | 'en') => void
   setOpen: (open: boolean) => void
   onChange: (value: string) => void
   closeClearEditData?: boolean
-}> = ({ value, height, setOpen, onChange, closeClearEditData, open, language, handleLanguage }) => {
+}> = ({
+  value,
+  height,
+  setOpen,
+  onChange,
+  closeClearEditData,
+  open,
+  language,
+  handleLanguage,
+  noYear
+}) => {
   const [active, setActive] = useState<string>('second')
   const [cronText, setCronText] = useState<string>('')
   const [second, setSecond] = useState('*')
@@ -132,7 +146,6 @@ const CronContent: React.FC<{
 
   const initData = () => {
     // 初始化数据
-    setCronText(value)
     const [second, minute, hour, day, month, week, year] = value!.split(' ')
     setSecond(secondReg.test(second) ? second : '*')
     setMinute(minuteReg.test(minute) ? minute : '*')
@@ -141,12 +154,13 @@ const CronContent: React.FC<{
     setMonth(monthReg.test(month) ? month : '*')
     setWeek(weekReg.test(week) ? week : '?')
     setYear(yearReg.test(year) ? year : '*')
+    setCronText(`${second} ${minute} ${hour} ${day} ${month} ${week}${noYear ? '' : ` ${year}`}`)
   }
 
   // 监听回调数据变化
   useEffect(() => {
-    setCronText(`${second} ${minute} ${hour} ${day} ${month} ${week} ${year}`)
-  }, [second, minute, hour, day, month, week, year])
+    setCronText(`${second} ${minute} ${hour} ${day} ${month} ${week}${noYear ? '' : ` ${year}`}`)
+  }, [second, minute, hour, day, month, week, year, noYear])
 
   return (
     <div>
@@ -164,62 +178,74 @@ const CronContent: React.FC<{
           activeKey={active}
           type="card"
           onChange={setActive}
-          items={[
-            {
-              key: 'second',
-              label: getTab(Language.second.name),
-              children: (
-                <TimeSelect value={second} onChange={setSecond} type="second" language={language} />
-              ),
-              className: 'react-cron-bh-tab'
-            },
-            {
-              key: 'minute',
-              label: getTab(Language.minute.name),
-              children: (
-                <TimeSelect value={minute} onChange={setMinute} type="minute" language={language} />
-              ),
-              className: 'react-cron-bh-tab'
-            },
-            {
-              key: 'hour',
-              label: getTab(Language.hour.name),
-              children: (
-                <TimeSelect value={hour} onChange={setHour} type="hour" language={language} />
-              ),
-              className: 'react-cron-bh-tab'
-            },
-            {
-              key: 'day',
-              label: getTab(Language.day.name),
-              children: (
-                <DayCron
-                  day={day}
-                  week={week}
-                  setDay={setDay}
-                  setWeek={setWeek}
-                  language={language}
-                />
-              ),
-              className: 'react-cron-bh-tab'
-            },
-            {
-              key: 'month',
-              label: getTab(Language.month.name),
-              children: (
-                <TimeSelect value={month} onChange={setMonth} type="month" language={language} />
-              ),
-              className: 'react-cron-bh-tab'
-            },
-            {
-              key: 'year',
-              label: getTab(Language.year.name),
-              children: (
-                <TimeSelect value={year} onChange={setYear} type="year" language={language} />
-              ),
-              className: 'react-cron-bh-tab'
-            }
-          ]}
+          items={
+            [
+              {
+                key: 'second',
+                label: getTab(Language.second.name),
+                children: (
+                  <TimeSelect
+                    value={second}
+                    onChange={setSecond}
+                    type="second"
+                    language={language}
+                  />
+                ),
+                className: 'react-cron-bh-tab'
+              },
+              {
+                key: 'minute',
+                label: getTab(Language.minute.name),
+                children: (
+                  <TimeSelect
+                    value={minute}
+                    onChange={setMinute}
+                    type="minute"
+                    language={language}
+                  />
+                ),
+                className: 'react-cron-bh-tab'
+              },
+              {
+                key: 'hour',
+                label: getTab(Language.hour.name),
+                children: (
+                  <TimeSelect value={hour} onChange={setHour} type="hour" language={language} />
+                ),
+                className: 'react-cron-bh-tab'
+              },
+              {
+                key: 'day',
+                label: getTab(Language.day.name),
+                children: (
+                  <DayCron
+                    day={day}
+                    week={week}
+                    setDay={setDay}
+                    setWeek={setWeek}
+                    language={language}
+                  />
+                ),
+                className: 'react-cron-bh-tab'
+              },
+              {
+                key: 'month',
+                label: getTab(Language.month.name),
+                children: (
+                  <TimeSelect value={month} onChange={setMonth} type="month" language={language} />
+                ),
+                className: 'react-cron-bh-tab'
+              },
+              !noYear && {
+                key: 'year',
+                label: getTab(Language.year.name),
+                children: (
+                  <TimeSelect value={year} onChange={setYear} type="year" language={language} />
+                ),
+                className: 'react-cron-bh-tab'
+              }
+            ].filter(Boolean) as any
+          }
         />
       </Card>
       <div className="react-cron-bh-bottom">
