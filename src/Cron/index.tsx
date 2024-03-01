@@ -28,6 +28,7 @@ type CronProps = {
   noYear?: boolean
   handleLanguage?: (language: 'cn' | 'en') => void
   onChange?: (value: string) => void
+  stopPropagation?: boolean
 }
 
 const Cron: React.FC<CronProps> = ({
@@ -59,6 +60,7 @@ const Cron: React.FC<CronProps> = ({
           noYear={noYear}
         />
       }
+      overlayInnerStyle={{ padding: 0 }}
       trigger="click"
       open={open}
       onOpenChange={setOpen}
@@ -163,7 +165,7 @@ const CronContent: React.FC<{
   }, [second, minute, hour, day, month, week, year, noYear])
 
   return (
-    <div>
+    <div onClick={(e) => e.stopPropagation()} style={{ padding: 16 }}>
       <Card
         bodyStyle={{
           padding: 0,

@@ -1,6 +1,6 @@
 {
   "name": "react-cron-ts",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "基于React+Antd的Cron编辑器插件",
   "main": "lib/index.js",
   "scripts": {

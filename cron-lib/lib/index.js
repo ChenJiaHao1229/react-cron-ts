@@ -25,7 +25,7 @@ require("./index.css");
 var Cron = function (_a) {
     var value = _a.value, children = _a.children, inputProps = _a.inputProps, height = _a.height, closeClearEditData = _a.closeClearEditData, style = _a.style, className = _a.className, _b = _a.language, language = _b === void 0 ? 'cn' : _b, _c = _a.noYear, noYear = _c === void 0 ? false : _c, handleLanguage = _a.handleLanguage, onChange = _a.onChange;
     var _d = (0, react_1.useState)(false), open = _d[0], setOpen = _d[1];
-    return ((0, jsx_runtime_1.jsx)(antd_1.Popover, __assign({ content: (0, jsx_runtime_1.jsx)(CronContent, { value: value || '* * * * * ? *', height: height, onChange: function (value) { return onChange && onChange(value); }, open: open, language: language, handleLanguage: handleLanguage, setOpen: setOpen, closeClearEditData: closeClearEditData, noYear: noYear }), trigger: "click", open: open, onOpenChange: setOpen }, { children: children || ((0, jsx_runtime_1.jsx)(antd_1.Input, __assign({ value: value, suffix: (0, jsx_runtime_1.jsx)(icons_1.FieldTimeOutlined, {}), readOnly: true, className: className, style: style }, inputProps))) })));
+    return ((0, jsx_runtime_1.jsx)(antd_1.Popover, __assign({ content: (0, jsx_runtime_1.jsx)(CronContent, { value: value || '* * * * * ? *', height: height, onChange: function (value) { return onChange && onChange(value); }, open: open, language: language, handleLanguage: handleLanguage, setOpen: setOpen, closeClearEditData: closeClearEditData, noYear: noYear }), overlayInnerStyle: { padding: 0 }, trigger: "click", open: open, onOpenChange: setOpen }, { children: children || ((0, jsx_runtime_1.jsx)(antd_1.Input, __assign({ value: value, suffix: (0, jsx_runtime_1.jsx)(icons_1.FieldTimeOutlined, {}), readOnly: true, className: className, style: style }, inputProps))) })));
 };
 var getTab = function (title) {
     return ((0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(icons_1.InsertRowAboveOutlined, {}), title] }));
@@ -70,7 +70,7 @@ var CronContent = function (_a) {
     (0, react_1.useEffect)(function () {
         setCronText("".concat(second, " ").concat(minute, " ").concat(hour, " ").concat(day, " ").concat(month, " ").concat(week).concat(noYear ? '' : " ".concat(year)));
     }, [second, minute, hour, day, month, week, year, noYear]);
-    return ((0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)(antd_1.Card, __assign({ bodyStyle: {
+    return ((0, jsx_runtime_1.jsxs)("div", __assign({ onClick: function (e) { return e.stopPropagation(); }, style: { padding: 16 } }, { children: [(0, jsx_runtime_1.jsx)(antd_1.Card, __assign({ bodyStyle: {
                     padding: 0,
                     width: language === 'cn' ? 480 : 645,
                     maxHeight: height
@@ -117,6 +117,6 @@ var CronContent = function (_a) {
                         }, value: language, optionType: "button", buttonStyle: "solid" })) : ((0, jsx_runtime_1.jsx)("span", {})), (0, jsx_runtime_1.jsx)(antd_1.Tooltip, __assign({ title: cronText }, { children: (0, jsx_runtime_1.jsx)("span", __assign({ className: "react-cron-bh-bottom-cron" }, { children: cronText })) })), (0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)(antd_1.Button, __assign({ style: { marginRight: 8 }, onClick: function () { return setOpen(false); } }, { children: Language.close })), (0, jsx_runtime_1.jsx)(antd_1.Button, __assign({ type: "primary", onClick: function () {
                                     onChange(cronText);
                                     setOpen(false);
-                                } }, { children: Language.save }))] })] }))] }));
+                                } }, { children: Language.save }))] })] }))] })));
 };
 exports.default = Cron;
